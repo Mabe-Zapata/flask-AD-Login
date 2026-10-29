@@ -1,34 +1,34 @@
 class Product {
   final int? id;
   final String names;
-  final String description;
   final double price;
   final int stock;
-  final bool isActive;
   final int version;
+  final String? descriptions;
   final String? imageUrl;
+  final bool isActive;
 
   Product({
     this.id,
     required this.names,
-    required this.description,
     required this.price,
     required this.stock,
-    this.isActive = true,
     this.version = 1,
+    this.descriptions,
     this.imageUrl,
+    this.isActive = true,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'] as int,
       names: json['names'] as String,
-      description: json['descriptions'] as String? ?? '',
       price: (json['price'] as num).toDouble(),
       stock: json['stock'] as int,
-      isActive: json['isActive'] as bool? ?? true,
       version: json['version'] as int? ?? 1,
+      descriptions: json['descriptions'] as String?,
       imageUrl: json['imageUrl'] as String?,
+      isActive: json['isActive'] as bool? ?? true,
     );
   }
 
@@ -36,34 +36,35 @@ class Product {
     return {
       'id': id ?? 0,
       'names': names,
-      'descriptions': description,
       'price': price,
       'stock': stock,
-      'isActive': isActive,
       'version': version,
-      if (imageUrl != null) 'imageUrl': imageUrl,
+      // shortcut: el backend exige estos strings; se envían valores por defecto si no hay datos.
+      'descriptions': descriptions ?? 'Sin descripción',
+      'imageUrl': imageUrl ?? 'Sin imagen',
+      'isActive': isActive,
     };
   }
 
   Product copyWith({
     int? id,
     String? names,
-    String? description,
     double? price,
     int? stock,
-    bool? isActive,
     int? version,
+    String? descriptions,
     String? imageUrl,
+    bool? isActive,
   }) {
-      return Product(
-      id: id??this.id,
+    return Product(
+      id: id ?? this.id,
       names: names ?? this.names,
-      description: description ?? this.description,
       price: price ?? this.price,
       stock: stock ?? this.stock,
-      isActive: isActive ?? this.isActive,
       version: version ?? this.version,
+      descriptions: descriptions ?? this.descriptions,
       imageUrl: imageUrl ?? this.imageUrl,
+      isActive: isActive ?? this.isActive,
     );
   }
 }
